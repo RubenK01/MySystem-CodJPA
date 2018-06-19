@@ -48,6 +48,8 @@ public class SAProductoImp implements SAProducto {
 			
 			if(cl != null && !cl.getActivo()) {
 				et.rollback();
+				em.close();
+				emf.close();
 				throw new ExcepcionNegocio("El Cliente asociado a este producto debe estar dado de alta.");
 			}
 			else {
@@ -65,6 +67,9 @@ public class SAProductoImp implements SAProducto {
 									((Software)miProducto).setLineasDeCodigo(((Software)prod).getLineasDeCodigo());
 								}
 								catch(Exception e) {
+									et.rollback();
+									em.close();
+									emf.close();
 									throw new ExcepcionNegocio("El nombre introducido ya existe y es tipo 'Hardware', debe darse de alta con este tipo.");
 								}
 								
@@ -74,6 +79,9 @@ public class SAProductoImp implements SAProducto {
 									((Hardware)miProducto).setPeso(((Hardware)prod).getPeso());
 								}
 								catch(Exception e) {
+									et.rollback();
+									em.close();
+									emf.close();
 									throw new ExcepcionNegocio("El nombre introducido ya existe y es tipo 'Software', debe darse de alta con este tipo.");
 								}
 								
@@ -171,6 +179,8 @@ public class SAProductoImp implements SAProducto {
 			Cliente cl = em.find(Cliente.class, prod.getCliente().getId(), LockModeType.OPTIMISTIC_FORCE_INCREMENT) ;
 			if(cl != null && !cl.getActivo()) {
 				et.rollback();
+				em.close();
+				emf.close();
 				throw new ExcepcionNegocio("El Cliente asociado a este producto debe estar dado de alta.");
 			}
 			else {			
@@ -187,6 +197,8 @@ public class SAProductoImp implements SAProducto {
 						else {
 							if(!cl.getActivo() && prod.getActivo()) {
 								et.rollback();
+								em.close();
+								emf.close();
 								throw new ExcepcionNegocio("El Cliente asociado a este producto debe estar dado de alta.");
 								
 							}
@@ -196,6 +208,9 @@ public class SAProductoImp implements SAProducto {
 										((Software)miProducto).setLineasDeCodigo(((Software)prod).getLineasDeCodigo());
 									}
 									catch(Exception e) {
+										et.rollback();
+										em.close();
+										emf.close();
 										throw new ExcepcionNegocio("El tipo de producto debe ser 'Hardware'");
 									}
 									
@@ -205,6 +220,9 @@ public class SAProductoImp implements SAProducto {
 										((Hardware)miProducto).setPeso(((Hardware)prod).getPeso());
 									}
 									catch(Exception e) {
+										et.rollback();
+										em.close();
+										emf.close();
 										throw new ExcepcionNegocio("El tipo de producto debe ser 'Software'");
 									}
 									
@@ -250,7 +268,7 @@ public class SAProductoImp implements SAProducto {
 			
 			miProducto = em.find(Producto.class, prod.getId());
 
-			if (miProducto != null) {				
+			if (miProducto != null && miProducto.getActivo()) {				
 					em.lock(miProducto.getCliente(), LockModeType.OPTIMISTIC_FORCE_INCREMENT);
 				
 					miProducto.setActivo(false);				

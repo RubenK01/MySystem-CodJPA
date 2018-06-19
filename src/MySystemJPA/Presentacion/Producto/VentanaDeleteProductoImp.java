@@ -29,7 +29,7 @@ public class VentanaDeleteProductoImp extends VentanaDeleteProducto{
 			PanelDeleteProducto.setVisible(false);
 		}
 		else {
-			JOptionPane.showMessageDialog(null, "No existe el Producto buscado.");
+			JOptionPane.showMessageDialog(null, "No existe el Producto buscado o ya está dado de baja.");
 		}
 		
 	}

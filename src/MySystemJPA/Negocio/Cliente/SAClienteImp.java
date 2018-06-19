@@ -93,6 +93,8 @@ public class SAClienteImp implements SACliente {
 					}
 					else {
 						et.rollback();
+						em.close();
+						emf.close();
 						throw new ExcepcionNegocio("No se puede dar de baja el cliente (" + miCliente.getId()+") porque tiene productos activos asociados.");
 					}
 				}
@@ -133,7 +135,7 @@ public class SAClienteImp implements SACliente {
 			
 			miCliente = em.find(Cliente.class, cl.getId(), LockModeType.OPTIMISTIC);
 			
-			if(miCliente != null){
+			if(miCliente != null && miCliente.getActivo()){
 				Boolean prodInactivos = true;
 				
 				for(Producto prod : miCliente.getProductos()) {
@@ -148,6 +150,8 @@ public class SAClienteImp implements SACliente {
 				}
 				else {
 					et.rollback();
+					em.close();
+					emf.close();
 					throw new ExcepcionNegocio("No se puede dar de baja el cliente (" + miCliente.getId()+") porque tiene productos activos asociados.");
 				}
 				

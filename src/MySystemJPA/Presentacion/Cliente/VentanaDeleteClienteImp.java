@@ -30,7 +30,7 @@ public class VentanaDeleteClienteImp extends VentanaDeleteCliente{
 			PanelDeleteCliente.setVisible(false);
 		}
 		else {
-			JOptionPane.showMessageDialog(null, "No existe el Cliente buscado.");
+			JOptionPane.showMessageDialog(null, "No existe el Cliente buscado o ya está dado de baja.");
 		}
 	}
 
